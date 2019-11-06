@@ -1,0 +1,168 @@
+@import url(https://fonts.googleapis.com/css?family=Anonymous+Pro);
+
+html, body{
+    margin: 0;
+    padding: 0;
+    background-color:#111111;
+}
+
+/* OVERALL */
+
+.coded-text{
+    color: lawngreen;
+    font-weight: 600;
+    font-family: 'Anonymous Pro', monospace;
+    text-shadow: 0px 0px 8px;
+    letter-spacing: .15em;
+}
+
+/* OVERALL ENDS */
+
+/* NAVIGATION BAR */
+.nav-ul{
+    list-style-type: none;
+    margin: 0px;
+    padding: 0px;
+    background-color: #111111;
+    height:50px;
+}
+
+.nav-li{
+
+}
+
+#nav-title{
+    font-size: 25px;
+    padding-top: 7px;
+    cursor: pointer;
+    text-align: center;
+}
+
+.nav-a{
+    font-size: 20px;
+    transform: translateY(-38px);
+    padding-left: 10px;
+    text-align: left;
+    cursor: pointer;
+}
+/* NAVIGATION BAR ENDS */
+
+/* TYPEWRITER ANIMATION */
+.typewriter{
+  overflow: hidden; /* Ensures the content is not revealed until the animation */
+  white-space: nowrap; /* Keeps the content on a single line */
+  margin: 0 auto; /* Gives that scrolling effect as the typing happens */
+  animation: 
+    typing 4.0s steps(80, end),
+    blink-caret .75s step-end infinite;
+}
+
+.typewriter-o{
+  overflow: hidden; /* Ensures the content is not revealed until the animation */
+  white-space: nowrap; /* Keeps the content on a single line */
+  margin: 0 auto; /* Gives that scrolling effect as the typing happens */
+  animation: 
+    typing 4.0s steps(80, end),
+    blink-caret .75s step-end infinite;
+}
+
+/* The typing effect */
+@keyframes typing {
+  from { width: 0 }
+  to { width: 100% }
+}
+
+.blinking-cursor {
+  font-weight: 100;
+  font-size: 30px;
+  text-shadow: 0px 0px 8px;
+  color: lawngreen;
+  -webkit-animation: 1s blink step-end infinite;
+  -moz-animation: 1s blink step-end infinite;
+  -ms-animation: 1s blink step-end infinite;
+  -o-animation: 1s blink step-end infinite;
+  animation: 1s blink step-end infinite;
+}
+
+.blinking{
+    animation: blink-text 1s step-end infinite;
+}
+
+
+@keyframes "blink-text"{
+    from, to{
+        color:transparent;
+    }
+    50%{
+        color:white;
+    }
+}
+
+@-moz-keyframes "blink-text"{
+    from, to{
+        color:transparent;
+    }
+    50%{
+        color:white;
+    }
+}
+
+@-webkit-keyframes "blink-text"{
+    from, to{
+        color:transparent;
+    }
+    50%{
+        color:white;
+    }
+}
+
+@keyframes "blink" {
+  from, to {
+    color: transparent;
+  }
+  50% {
+    color: lawngreen;
+  }
+}
+
+@-moz-keyframes blink {
+  from, to {
+    color: transparent;
+  }
+  50% {
+    color: lawngreen;
+  }
+}
+
+@-webkit-keyframes "blink" {
+  from, to {
+    color: transparent;
+  }
+  50% {
+    color: lawngreen;
+  }
+}
+
+@-ms-keyframes "blink" {
+  from, to {
+    color: transparent;
+  }
+  50% {
+    color: lawngreen;
+  }
+}
+
+@-o-keyframes "blink" {
+  from, to {
+    color: transparent;
+  }
+  50% {
+    color: lawngreen;
+  }
+}
+
+/* TYPEWRITER ENDS */
+
+.section{
+    height: 100vh;
+}
