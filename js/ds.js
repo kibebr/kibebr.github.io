@@ -51,8 +51,8 @@
   		}
 
   		search(word){
-  			for(let cursor = hashtable.table[word[0]]; cursor != null; cursor = cursor.next)
+  			for(let cursor = this.table[word[0]]; cursor != null; cursor = cursor.next)
   				if(cursor.word == word)
-  					return true;		
+  					return cursor;		
   		}
 	}

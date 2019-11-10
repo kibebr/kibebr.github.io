@@ -53,7 +53,7 @@ html, body{
   white-space: nowrap; /* Keeps the content on a single line */
   margin: 0 auto; /* Gives that scrolling effect as the typing happens */
   animation: 
-    typing 4.0s steps(80, end),
+    typing 4.0s steps(90, end),
     blink-caret .75s step-end infinite;
 }
 
