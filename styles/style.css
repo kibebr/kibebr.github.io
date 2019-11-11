@@ -36,9 +36,8 @@ html, body{
 
 .nav-a{
     font-size: 20px;
-    transform: translateY(-38px);
-    padding-left: 10px;
-    text-align: left;
+    transform: translateY(-30px);
+    padding-top: 7px;
     cursor: pointer;
 }
 /* NAVIGATION BAR ENDS */
@@ -90,7 +89,7 @@ html, body{
         color:transparent;
     }
     50%{
-        color:white;
+        color:red;
     }
 }
 
@@ -99,7 +98,7 @@ html, body{
         color:transparent;
     }
     50%{
-        color:white;
+        color:red;
     }
 }
 
@@ -108,7 +107,7 @@ html, body{
         color:transparent;
     }
     50%{
-        color:white;
+        color:red;
     }
 }
 

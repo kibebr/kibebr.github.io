@@ -1,6 +1,48 @@
-var words = new Hashtable();
+let htmlUserPrompt = document.getElementById("user-prompt");
 
-var game = {
+var WordManager = {
+	fetch_words : function(){
+    	return new Promise((resolve, reject)=>{
+    		const request = new XMLHttpRequest();
+
+    		console.log("FETCHING ADDRESS: " + this.currentAddress);
+
+    		request.open("GET", "https://raw.githubusercontent.com/kibebr/fastyper/master/server/words/" + this.currentAddress + ".txt", false);
+
+    		request.onload = () => resolve(request.responseText.split('\n'), 1);
+    		request.onerror = () => reject("ERROR LOADING WORDS");
+
+    		request.send();
+    	});		
+	},
+
+	insert_words : async function(quantity){
+		for(let index = this.lastWordIndex, goal = (index+quantity); index < goal; ++index){
+			if(!this.loadedWords[index]){
+				this.lastWordIndex = 0;
+				++this.addressFileNumber;
+				this.currentAddress = "en-popular1/"+this.addressFileNumber;
+				this.loadedWords = await this.fetch_words();
+				return this.insert_words(quantity);
+			}
+
+			this.hashtable.put(this.loadedWords[index], Game.context);
+			++this.lastWordIndex;
+		}
+	},
+
+	init : async function(){
+		this.hashtable = new Hashtable();
+		this.lastWordIndex = Math.floor(Math.random() * 950);
+
+		this.addressFileNumber = 0;
+		this.currentAddress = "en-popular1/"+this.addressFileNumber;
+
+		this.loadedWords = await this.fetch_words();
+	}
+}
+
+var Game = {
 	canvas : document.createElement("canvas"),
 
 	init_canvas : function(){
@@ -16,37 +58,26 @@ var game = {
 
 	init_properties : function(){
 		this.userPrompt = "";
+		this.speedMultiplier = 1;
 		this.speed = (this.canvas.width / 1200);
 
-		this.lastWordIndex = 0;
-		this.allWords = this.load_words();
+		this.level = 0;
+		this.lost = false;
 
 		return true;
 	},
 
-	load_words : function(){
-    	return new Promise((resolve, reject) => {
-    		const request = new XMLHttpRequest();
-
-    		request.open("GET", "https://gist.githubusercontent.com/deekayen/4148741/raw/01c6252ccc5b5fb307c1bb899c95989a8a284616/1-1000.txt", false);
-
-    		request.onload = () => resolve(request.responseText.split('\n'));
-    		request.onerror = () => reject("ERROR LOADING WORDS");
-
-    		request.send();
-    	});
-	},
-
-	insert_words : async function(quantity){
-		for(let index = this.lastWordIndex, goal = (index+quantity), wordsPtr = await this.allWords; index < goal; ++index){
-			words.put(wordsPtr[index]);
-			++this.lastWordIndex;
-		}
-	},
-
-	start : function(){
-		this.insert_words(20);
+	start : async function(){
+		await WordManager.init();
+		WordManager.insert_words(20);
 		this.interval = setInterval(update_game, 20);
+	},
+
+	over : function(){
+		clearInterval(this.interval); // prevents game from updating
+		htmlUserPrompt.classList.add("blinking");
+		htmlUserPrompt.innerHTML = "GAME OVER";
+		this.lost = true;
 	},
 
 	clearCanvas : function(){
@@ -54,18 +85,18 @@ var game = {
 	}
 }
 
-let htmlUserPrompt = document.getElementById("user-prompt");
 
-game.init_canvas();
-game.init_properties();
-game.start();
+Game.init_canvas();
+Game.init_properties();
+Game.start();
 
 function update_game(){
-	game.clearCanvas();
+
+	Game.clearCanvas();
 
     for(let letter = 'a'; letter <= 'z'; letter = String.fromCharCode(letter.charCodeAt(0) + 1)){
-		if(words.table[letter]){
-        	let cursor = words.table[letter];
+		if(WordManager.hashtable.table[letter]){
+        	let cursor = WordManager.hashtable.table[letter];
           	while(cursor != null){
           		update_word(cursor);
             	cursor = cursor.next;
@@ -76,22 +107,33 @@ function update_game(){
 
 let recentlyGotWord = true;
 function update_word(object){
-	object.x += game.speed;
+	object.x += Game.speed * Game.speedMultiplier;
 	
-	let percent = (object.x / game.canvas.width)*100;
-    game.context.fillStyle = "rgb( " + (percent*2.5) + "," + (255-(percent*2.5)) +", 60, 255)";
+	let percent = (object.x / Game.canvas.width)*100; // how many % until end of the canvas
+    Game.context.fillStyle = "rgb( " + (percent*3) + "," + (255-(percent*3)) +", 0	, 255)";
 
-    object.update(game.context);
+    object.update();
 
-    if(words.remove(game.userPrompt)){
+    if(object.x >= Game.canvas.width)
+    	Game.over();
+
+    if(WordManager.hashtable.remove(Game.userPrompt)){
     	htmlUserPrompt.style.color = "lawngreen";
     	recentlyGotWord = true;
-    	game.userPrompt = "";
+    	Game.userPrompt = "";
+
+    	if(WordManager.hashtable.length == 15){
+    		WordManager.insert_words(20);
+    		++Game.level;
+    		Game.speedMultiplier += 0.5;
+    	}
     }
 }
 
 // EVENT LISTENERS
 document.addEventListener("keypress", function handle_user_prompt(event){
+	if(Game.lost) return;
+
 	if(recentlyGotWord){
 		htmlUserPrompt.classList.remove("blinking");
 		htmlUserPrompt.style.color = "white";
@@ -99,17 +141,20 @@ document.addEventListener("keypress", function handle_user_prompt(event){
 	}
 
 	if(event.keyCode != 32) // if user didn't press spacebar
-		game.userPrompt += String.fromCharCode(event.keyCode);
+		Game.userPrompt += String.fromCharCode(event.keyCode);
 
-	htmlUserPrompt.innerHTML = game.userPrompt;
+	htmlUserPrompt.innerHTML = Game.userPrompt;
 });
 
 document.addEventListener("keydown", function handle_user_backspace(event){
-	if(event.keyCode == 8) // backspace
-		game.userPrompt = game.userPrompt.substr(0, (game.userPrompt.length - 1));
+	if(Game.lost) return;
+
+	if(event.keyCode == 8){ // backspace
+		Game.userPrompt = Game.userPrompt.substr(0, (Game.userPrompt.length - 1));
+		htmlUserPrompt.innerHTML = Game.userPrompt;
+	} 
 
 	if(event.keyCode == 32 && event.target == document.body) // prevents the use of scrolling using spacebar
 		event.preventDefault();
 
-	htmlUserPrompt.innerHTML = game.userPrompt;
 });

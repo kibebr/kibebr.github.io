@@ -2,12 +2,13 @@
 		constructor(word, canvasContext){
 			this.word = word;
 			this.next = null;
+			this.canvas = canvasContext;
 			this.x = Math.floor((Math.random() * -400) + (-50));
-			this.y = Math.floor((Math.random() * 750) + 100);
+			this.y = Math.floor((Math.random() * 650) + 100);
 		}
 
-		update(canvasContext){
-			canvasContext.fillText(this.word, this.x, this.y);
+		update(){
+			this.canvas.fillText(this.word, this.x, this.y);
 		}
 	}
 
@@ -18,9 +19,9 @@
 			this.length = 0;
 		}
 
-		put(word){
+		put(word, canvasContext){
 			let key = word[0]; 
-			let node = new Node(word);
+			let node = new Node(word, canvasContext);
 
 			if(this.table[key] == undefined)
 				this.table[key] = node;	
