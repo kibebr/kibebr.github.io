@@ -16,6 +16,30 @@ html, body{
     letter-spacing: .15em;
 }
 
+.intro-text{
+    color: white;
+    font-family: 'Fira Code', monospace;
+}
+
+.card{
+    margin-left: 25px;
+    width: 30%;
+
+    display: inline-table;
+    text-align: center;
+}
+
+.card-title{
+    border-bottom: 3px solid white;
+    padding-bottom: 5px;
+}
+
+.link{
+    color: #A6A6FF;
+    text-decoration: none;
+    background-color:none;
+}
+
 /* OVERALL ENDS */
 
 /* NAVIGATION BAR */
