@@ -1,9 +1,10 @@
 @import url(https://fonts.googleapis.com/css?family=Anonymous+Pro);
+@import url(https://fonts.googleapis.com/css?family=Fira+Code);
 
 html, body{
     margin: 0;
     padding: 0;
-    background-color:#111111;
+    background-color:black;
 }
 
 /* OVERALL */
@@ -21,12 +22,15 @@ html, body{
     font-family: 'Fira Code', monospace;
 }
 
-.card{
-    margin-left: 25px;
-    width: 30%;
-
-    display: inline-table;
+.cardWrapper{
     text-align: center;
+}
+
+.card{
+  width: 30%;
+  display: inline-block;
+  vertical-align: top;
+  padding: 10px;
 }
 
 .card-title{
@@ -37,7 +41,7 @@ html, body{
 .link{
     color: #A6A6FF;
     text-decoration: none;
-    background-color:none;
+    background-color: none;
 }
 
 /* OVERALL ENDS */
@@ -47,8 +51,8 @@ html, body{
     list-style-type: none;
     margin: 0px;
     padding: 0px;
-    background-color: #111111;
-    height:50px;
+    background-color: black;
+    height: 50px;
 }
 
 #nav-title{
@@ -66,7 +70,10 @@ html, body{
 }
 /* NAVIGATION BAR ENDS */
 
-/* TYPEWRITER ANIMATION */
+
+
+
+/* ANIMATIONS */
 .typewriter{
   overflow: hidden; /* Ensures the content is not revealed until the animation */
   white-space: nowrap; /* Keeps the content on a single line */
@@ -180,8 +187,4 @@ html, body{
   }
 }
 
-/* TYPEWRITER ENDS */
-
-.section{
-    height: 100vh;
-}
+/* ANIMATIONS ENDS */
