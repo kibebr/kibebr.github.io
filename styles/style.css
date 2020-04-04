@@ -1,19 +1,16 @@
-@import url(https://fonts.googleapis.com/css?family=Anonymous+Pro);
-@import url(https://fonts.googleapis.com/css?family=Fira+Code);
+@import url(https://fonts.googleapis.com/css?family=VT323);
 
 html, body{
     margin: 0;
     padding: 0;
-    background-color:black;
+    background-color: black;
 }
 
 /* OVERALL */
 
 .coded-text{
     color: lawngreen;
-    font-weight: 600;
-    font-family: 'Anonymous Pro', monospace;
-    text-shadow: 0px 0px 8px;
+    font-family: 'VT323';
     letter-spacing: .15em;
 }
 
@@ -25,15 +22,13 @@ html, body{
 .cardWrapper{
     text-align: center;
 }
-
-.card{
+.cardWrapper>.card{
   width: 30%;
   display: inline-block;
   vertical-align: top;
   padding: 10px;
 }
-
-.card-title{
+.card>.card-title{
     border-bottom: 3px solid white;
     padding-bottom: 5px;
 }
@@ -47,36 +42,38 @@ html, body{
 /* OVERALL ENDS */
 
 /* NAVIGATION BAR */
-.nav-ul{
-    list-style-type: none;
-    margin: 0px;
-    padding: 0px;
-    background-color: black;
-    height: 50px;
+nav{
+  margin: 0px;
+  height: 50px;
+  background-color: black;
+}
+nav>ul{
+  list-style-type: none;
+}
+nav>ul>li{
+  display: inline;
 }
 
 #nav-title{
-    font-size: 25px;
-    padding-top: 7px;
-    cursor: pointer;
-    text-align: center;
+  font-size: 30px;
+  margin-top: -5px;
+  cursor: pointer;
+  text-align: center;
 }
 
-.nav-a{
-    font-size: 20px;
-    transform: translateY(-30px);
-    padding-top: 7px;
-    cursor: pointer;
+#nav-login{
+  margin-top: -15px;
+  font-size: 20px;
+  margin-right: 25px;
+  text-align: right;
 }
+
 /* NAVIGATION BAR ENDS */
-
-
 
 
 /* ANIMATIONS */
 .typewriter{
   overflow: hidden; /* Ensures the content is not revealed until the animation */
-  white-space: nowrap; /* Keeps the content on a single line */
   margin: 0 auto; /* Gives that scrolling effect as the typing happens */
   animation: 
     typing 4.0s steps(110, end),
